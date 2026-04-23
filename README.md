@@ -26,7 +26,7 @@ _Note: this has been widely passed around as some sort of token efficiency boon.
 
 Reviews plans, specs, or guidelines for flaws, ways to simplify, edge cases, performance risks, and security gaps. Invoke with `/audit-plan` or by asking for a critical read of a plan. Output can stay shallow (headlines + severity) or go deep if you ask.
 
-### `/grill-plan` (custom)
+### `/grill-plan`
 
 Pressure-tests a plan with one focused question at a time (often multiple choice), following a set order from goals and scope through failure modes, security, scaling, and tests. Ends with locked decisions and remaining risks. Use `/grill-plan` or ask to stress-test a plan before build.
 
