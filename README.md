@@ -18,7 +18,7 @@ With overwrite:
 
 **`.cursor/rules/caveman.mdc`** is **always on**: terse replies (drop filler and hedging; fragments OK) while keeping technical accuracy. Switch intensity with `/caveman` (lite, full, ultra; the **caveman** skill adds wenyan modes). Say `stop caveman` or `normal mode` to turn off. For security warnings, irreversible actions, or when you are lost, the model should drop caveman briefly, then resume.
 
-Code, commits, and PRs stay in normal tone unless you want otherwise.
+_Note: this has been widely passed around as some sort of token efficiency boon... since it's been tested more it doesn't actually appear to be that. However, I've enjoyed having it for the less verbose output it forces._
 
 ## Skills (`.cursor/skills/<name>/SKILL.md`)
 
