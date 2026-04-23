@@ -22,15 +22,15 @@ _Note: this has been widely passed around as some sort of token efficiency boon.
 
 ## Skills (`.cursor/skills/<name>/SKILL.md`)
 
-### `/audit-plan`
+### `/audit-plan` (custom)
 
 Reviews plans, specs, or guidelines for flaws, ways to simplify, edge cases, performance risks, and security gaps. Invoke with `/audit-plan` or by asking for a critical read of a plan. Output can stay shallow (headlines + severity) or go deep if you ask.
 
-### `/grill-plan`
+### `/grill-plan` (custom)
 
 Pressure-tests a plan with one focused question at a time (often multiple choice), following a set order from goals and scope through failure modes, security, scaling, and tests. Ends with locked decisions and remaining risks. Use `/grill-plan` or ask to stress-test a plan before build.
 
-### `/frontend-wireframe`
+### `/frontend-wireframe` (custom)
 
 Layout and UX-only wireframes: two fixed Tailwind neutrals, border-only blocks, stable `block-*` / region names, mobile-first layout and `xl` desktop shell. Infer Vue/Blade/Inertia from the repo. Reference URLs or screenshots inform **structure** only—ignore real colors, fonts, and brand art unless you override.
 
@@ -39,13 +39,9 @@ Example target layout (book-community style homepage: header, sidebar blocks, fe
 ![Example /frontend-wireframe output](example-images/example_frontend-wireframe.png)
 ![Example /frontend wireframe reference](example-images/example_ref_frontend-wireframe.png)
 
-### `/frontend-implementation`
+### `/frontend-implementation` (custom)
 
 Production UI aligned with this repo’s stack: small color palette (3–5), at most two font families, mobile-first Tailwind, design tokens in `app.css`, SEO via Inertia `Head` + root Blade, accessibility and form patterns for Laravel + Inertia. Use when shipping or refactoring real UI.
-
-### `/frontend-design`
-
-Placeholder for **visual design policy** (color, type, tokens, motion). The skill file still says content is TBD.
 
 ### `/startup-design`
 
