@@ -2,7 +2,7 @@
 name: frontend-wireframe
 description: >-
      Layout and UX-only wireframes: two fixed Tailwind neutrals, border-only regions, mobile-first
-     single column, header + hamburger (top-right) with full right-aligned menu, desktop at `xl`
+     single column, header + hamburger (top-right) with full right-aligned menu, desktop at `lg`
      with centered max-width shell. Infer deliverable + routes from the repo; ask if unclear. Use when
      the user mentions wireframe, page layout, site structure, landing/pricing shells, mobile nav,
      or asks to apply this skill explicitly.
@@ -47,8 +47,8 @@ Rules:
 1. **Mobile-first:** default layout is **one column** unless a section’s UX clearly needs otherwise (e.g. a documented comparison table).
 2. **Header:** top bar with site title/placeholder on the left; **hamburger on the top-right** (LTR).
 3. **Menu:** Tapping the hamburger reveals the **entire** nav set in a panel that is **right-aligned** (link block aligned to the end side) for thumb reach. Full viewport height panel; backdrop tap and `Escape` close; move focus into the panel when open and restore focus on close. Use project primitives (e.g. Headless UI `Dialog`) if present; otherwise minimal `ref` + `aria-expanded` / `aria-controls` on the button and an `id` on the panel.
-4. **Desktop:** Apply multi-column / horizontal nav patterns at Tailwind **`xl`** (`xl:`) and up. Design desktop assuming **1280px** as the primary wide target.
-5. **Very wide viewports:** Wrap main content in a centered shell, e.g. `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8` (adjust `px` if the project already standardizes padding). No full-bleed content unless the user asks.
+4. **Desktop:** Apply multi-column / horizontal nav patterns at Tailwind **`lg`** (`lg:`) and up. Design desktop assuming **1280px** as the primary wide target.
+5. **Very wide viewports:** Wrap main content in a centered shell, e.g. `max-w-7lg mx-auto px-4 sm:px-6 lg:px-8` (adjust `px` if the project already standardizes padding). No full-bleed content unless the user asks.
 
 ## Names, IDs, and on-canvas labels
 

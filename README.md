@@ -32,7 +32,7 @@ Pressure-tests a plan with one focused question at a time (often multiple choice
 
 ### `/frontend-wireframe` (custom)
 
-Layout and UX-only wireframes: two fixed Tailwind neutrals, border-only blocks, stable `block-*` / region names, mobile-first layout and `xl` desktop shell. Infer Vue/Blade/Inertia from the repo. Reference URLs or screenshots inform **structure** only—ignore real colors, fonts, and brand art unless you override.
+Layout and UX-only wireframes: two fixed Tailwind neutrals, border-only blocks, stable `block-*` / region names, mobile-first layout and `lg` desktop shell. Infer Vue/Blade/Inertia from the repo. Reference URLs or screenshots inform **structure** only—ignore real colors, fonts, and brand art unless you override.
 
 Example target layout (book-community style homepage: header, sidebar blocks, featured + updates feed):
 
