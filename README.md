@@ -1,6 +1,6 @@
 # ai
 
-A collection of my AI resources. For my own use, YMMV.
+A collection of my agentic resources. For my own use, YMMV.
 
 ## Sync `.cursor` from GitHub (sparse clone)
 
