@@ -1,4 +1,4 @@
-# ai
+# agentic
 
 A collection of my agentic resources. For my own use, YMMV.
 
