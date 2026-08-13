@@ -1,52 +1,76 @@
 # agentic
 
-A collection of my agentic resources. For my own use, YMMV.
+A collection of my agentic resources, primarily skills I've created or customized. For my own use, YMMV.
 
-## Sync `.cursor` from GitHub (sparse clone)
+## Sync `.skills` from GitHub
 
-No overwrite:
+Run from the root of the project you want the skills in. Needs PowerShell and `git`.
 
-`$repo='https://github.com/PSNapier/ai.git'; $tmp=Join-Path $env:TEMP ("ai-cursor-"+[guid]::NewGuid()); git clone --depth 1 --filter=blob:none --sparse $repo $tmp; git -C $tmp sparse-checkout set .cursor; robocopy (Join-Path $tmp '.cursor') (Join-Path (Get-Location) '.cursor') /E /XC /XN /XO /R:1 /W:1; if($LASTEXITCODE -ge 8){ throw "robocopy failed: $LASTEXITCODE" }; Remove-Item $tmp -Recurse -Force`
+No overwrite (adds new files, leaves existing ones alone):
+
+```powershell
+irm https://raw.githubusercontent.com/PSNapier/agentic/main/sync.ps1 | iex
+```
 
 With overwrite:
 
-`$repo='https://github.com/PSNapier/ai.git'; $tmp=Join-Path $env:TEMP ("ai-cursor-"+[guid]::NewGuid()); git clone --depth 1 --filter=blob:none --sparse $repo $tmp; git -C $tmp sparse-checkout set .cursor; robocopy (Join-Path $tmp '.cursor') (Join-Path (Get-Location) '.cursor') /E /IS /IT /R:1 /W:1; if($LASTEXITCODE -ge 8){ throw "robocopy failed: $LASTEXITCODE" }; Remove-Item $tmp -Recurse -Force`
+```powershell
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/PSNapier/agentic/main/sync.ps1))) -Force
+```
 
-## Rules (`.cursor/rules/`)
+Both forms sparse-clone this repo, copy `.skills/` into the destination, then delete the temp clone.
 
-### `caveman.mdc`
+### Choosing where they land
 
-**`.cursor/rules/caveman.mdc`** is **always on**: terse replies (drop filler and hedging; fragments OK) while keeping technical accuracy. Switch intensity with `/caveman` (lite, full, ultra; the **caveman** skill adds wenyan modes). Say `stop caveman` or `normal mode` to turn off. For security warnings, irreversible actions, or when you are lost, the model should drop caveman briefly, then resume.
+The default destination is `.skills`, which is tool-agnostic. Point `-Dest` at whatever folder your agent actually reads: `.claude/skills` for Claude Code, `.cursor/skills` for Cursor, or anywhere else you prefer.
 
-_Note: this has been widely passed around as some sort of token efficiency boon... since it's been tested more it doesn't actually appear to be that. However, I've enjoyed having it for the less verbose output it forces._
+```powershell
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/PSNapier/agentic/main/sync.ps1))) -Dest .claude/skills
+```
 
-## Skills (`.cursor/skills/<name>/SKILL.md`)
+`-Dest` accepts a relative or absolute path and combines with `-Force`.
 
-### `/audit-plan` (custom)
+## Skills (`.skills/<name>/SKILL.md`)
 
-Reviews plans, specs, or guidelines for flaws, ways to simplify, edge cases, performance risks, and security gaps. Invoke with `/audit-plan` or by asking for a critical read of a plan. Output can stay shallow (headlines + severity) or go deep if you ask.
+### `/caveman`
 
-### `/grill-plan`
+Invocable skill that matches the **caveman** rules and adds modes like **wenyan** and explicit persistence rules. Use when you want the same terse style with the full option set documented in the skill.
 
-Pressure-tests a plan with one focused question at a time (often multiple choice), following a set order from goals and scope through failure modes, security, scaling, and tests. Ends with locked decisions and remaining risks. Use `/grill-plan` or ask to stress-test a plan before build.
+Source: [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman) — upstream also ships `caveman-compress`, `caveman-commit`, `caveman-review`, `caveman-stats`, and the `cavecrew` subagents.
 
-### `/frontend-wireframe` (custom)
+_Note: this has been widely passed around as some sort of token efficiency boon. Since it's been tested more it doesn't actually appear to be that. However, I've enjoyed having it for the more concise output it creates. Anecdotally I have found this effect is less noticeable in Claude Code than Cursor, but still worthwhile... Claude seems more resistant to having their voice altered, so the wordage itself doesn't change as much, there's just less of it. Pre 5.0 iterations of Opus seemed to get a little grumpy/contrary with it implemented but that no longer seems to be the case._
 
-Layout and UX-only wireframes: two fixed Tailwind neutrals, border-only blocks, stable `block-*` / region names, mobile-first layout and `lg` desktop shell. Infer Vue/Blade/Inertia from the repo. Reference URLs or screenshots inform **structure** only—ignore real colors, fonts, and brand art unless you override.
+### `/grill-me` (customized)
 
-Example target layout (book-community style homepage: header, sidebar blocks, featured + updates feed):
+Based on Matt Pocock's grilling skill. There were aspects about his updated Grilling skills (Summer 2026) that didn't quite fit my brain or workflow, this is my customized version that puts questions back into the Claude Code question dialog, and organizes the grilling process more succinctly.
 
-![Example /frontend-wireframe output](example-images/example_frontend-wireframe.png)
-![Example /frontend wireframe reference](example-images/example_ref_frontend-wireframe.png)
+For instance, Before the changes I was seeing replies that would state a bunch of facts before asking a question with information on A, B, C, etc., all within the same paragraph and even the recommended answer, which was pulled out into another paragraph, would often have references to multiple options (again A, B, C, etc.).
 
-### `/frontend-implementation` (custom)
+Post-changes Questions are more directly and succinctly put in the Claude Code question dialog for clarity, while maintaining the improved frontiers functionality and other improvements.
 
-Production UI aligned with this repo’s stack: small color palette (3–5), at most two font families, mobile-first Tailwind, design tokens in `app.css`, SEO via Inertia `Head` + root Blade, accessibility and form patterns for Laravel + Inertia. Use when shipping or refactoring real UI.
+Anecdotally I do feel this is an improvement over Pocock's original grilling skill. Even utilizing the same models, it seems to create more thorough and accurate resulting plans and specs.
+
+Source: [mattpocock/skills](https://github.com/mattpocock/skills) (`grill-me`).
+
+### `/roadmap`, `/roadmap-done`, `/roadmap-execute`, `/roadmap-scaffold` (custom)
+
+My own planning loop, drafted with Opus 4.6(ish?) as a document outline and then tweaked over a lot of real sessions. Active work lives in `ROADMAP.md` at the repo root, finished work gets archived to `ROADMAP_DONE.md`. Items are three-digit IDs (`[002]`, `[015]`) with Goal, Scope, Technical Notes (optional Mermaid diagram), Acceptance Criteria, and a separate Tests section. Four statuses only: `next`, `blocked`, `freezer`, `done`, and nothing is `done` until every box in both sections is checked.
+
+- `/roadmap` is the day-to-day one: add items, edit scope, check boxes, flip statuses.
+- `/roadmap-done` reconciles the item against what actually happened at the end of a session, reruns the listed tests rather than trusting the diff, then archives and commits.
+- `/roadmap-execute [NNN]` builds an item end to end, fanning recon and disjoint-file chunks out to subagents, test-first, and stops before committing so I can review the dirty tree.
+- `/roadmap-scaffold` writes the two blank Roadmap files into a new project with example items.
+
+My typical workflow is:
+
+- `prompt /roadmap /grill-me` session 
+- Implemented with `/goal roadmap-execute [roadmap-item-id]`
+- Once confirmed working/done `ROADMAP.md` and `ROADMAP.md` are updated and changes are committed with `/roadmap-done`.
+
+_Note: It seems the standard at large for this sort of workflow is to utilize something that interfaces with GitHub issues or a service like Linear. For my particular process that felt needlessly complicated, and I like having the whole roadmap documents open in my editor as I am working with Claude Code. I expect this type of workflow is well suited to solo devs but less so for group projects (though I imagine work arounds such as different sections within the road maps for different devs)._
 
 ### `/startup-design`
 
 Takes an idea through eight phases: intake, brainstorm, research, strategy, brand, product, financials, validation—mostly as markdown artifacts plus `PROGRESS.md` for resuming. Optional fast-track when you want a quicker go/no-go. Supporting material lives under `startup-design/references/` (research waves, synthesis, benchmarks, honesty protocol, etc.).
 
-### `/caveman`
-
-Invocable skill that matches the **caveman** rules and adds modes like **wenyan** and explicit persistence rules. Use when you want the same terse style with the full option set documented in the skill.
+Source: [ferdinandobons/startup-skill](https://github.com/ferdinandobons/startup-skill) (`startup-design`; the same repo also ships `startup-competitors`, `startup-positioning`, and `startup-pitch`).
